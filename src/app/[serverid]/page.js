@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState, useEffect } from "react"
 
 export default function Page({ params }) {
@@ -25,7 +26,6 @@ export default function Page({ params }) {
 		if (serverResponse.ok) {
 			const data = await serverResponse.json()
 			data.map((server, index) => {
-				console.log(server)
 				if (server.serverId == slug) {
 					setServerName(server.serverName)
 				}
@@ -44,7 +44,7 @@ export default function Page({ params }) {
 		fetchUsers()
 	}, [])
 	return (
-		<main className="flex h-screen flex-col items-center justify-start gap-2 bg-gray-50 p-2">
+		<main className="flex min-h-screen flex-col items-center justify-start gap-2 bg-gray-50 p-2">
 			{/* <div className="grid h-full w-full auto-rows-min grid-cols-4 gap-4 rounded-3xl bg-slate-400 p-4"> */}
 			<div className="flex w-full flex-col gap-2 rounded-xl bg-gray-200 p-4 text-black">
 				<h1 className="text-2xl font-bold"> {serverName}</h1>
@@ -55,12 +55,25 @@ export default function Page({ params }) {
 					.sort((a, b) => b.count - a.count)
 					.map((user, i) => {
 						return (
-							<div className="max-h-32 min-w-max rounded-md border bg-white p-4 shadow-sm">
-								<p key={i} className="text-l font-bold">
-									{user.username ||
-										user.userId +
-											" (send a gm to update name)"}
-								</p>
+							<div className="min-w-max rounded-md border bg-white p-4 shadow-sm">
+								<div className="flex flex-row gap-2">
+									{user.avatar === "" ? (
+										<div className="block aspect-square w-6 rounded-full"></div>
+									) : (
+										<Image
+											alt="user profile picture"
+											src={user.avatar}
+											width="64"
+											height="64"
+											className="aspect-square w-6 rounded-full"
+										></Image>
+									)}
+									<p key={i} className="text-l font-bold">
+										{user.username ||
+											user.userId +
+												" (send a gm to update name)"}
+									</p>
+								</div>
 								<h1 className="">
 									Greet count: {user.count || 0}
 								</h1>
