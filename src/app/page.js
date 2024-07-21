@@ -28,13 +28,13 @@ export default function Home() {
 	return (
 		<main className="flex h-screen min-h-screen flex-row items-center justify-between gap-3 p-4">
 			<div className="flex h-full w-full basis-1/4 flex-col items-start gap-2 rounded-xl bg-white p-5">
-				{allData.map((server) => {
+				{allData.map((server, i) => {
 					console.dir(server)
 					return (
 						<a
-							onClick={() => setServerID(server.serverId)}
-							key={server.serverId}
+							key={i}
 							className="text-black"
+							href={"/" + server.serverId}
 						>
 							{server.serverName || "Missing Name"}
 						</a>
